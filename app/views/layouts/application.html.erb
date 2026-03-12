@@ -23,7 +23,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <script>
+    window.APP_CURRENCY = "<%= session[:currency] || "usd" %>";
+  </script>
   <body>
     <%= yield %>
+    <a href="/cart">Carrito <span id="cart-count"><%= CartItem.where(session_id: current_Session).sum(:quantity) %></span></a>
   </body>
 </html>

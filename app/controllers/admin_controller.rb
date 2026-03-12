@@ -9,13 +9,27 @@ class AdminController < ApplicationController
   end
 
   def create
-     Product.create(product_params)
+    Product.create(product_params)
+    redirect_to "/admin"
+  end
+  def edit
+    @product = Product.find(params[:id])
+  end
+
+  def destroy
+    Product.find(params[:id]).destroy
+    redirect_to "/admin"
+  end
+
+  def update
+    product = Product.find(params[:id])
+    product.update(product_params)
     redirect_to "/admin"
   end
 
   private
   def product_params
-    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :category, :image_url)
+    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :category, :quantity, :image)
   end
 
   def authenticate

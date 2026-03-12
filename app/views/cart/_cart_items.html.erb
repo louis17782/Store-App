@@ -1,0 +1,36 @@
+<% currency = session[:currency] || "usd" %>
+
+<div id="cart-items">
+  <% total = 0 %>
+  <% @items.each do |item| %>
+  <% product = item.product %>
+  <div class="cart-item">
+    <strong><%= product.name %></strong>
+    <p>Stock disponible: <%= product.quantity %></p>
+    <p>
+      Cantidad:
+      <%= button_to "-",
+      cart_decrease_path(item.id),
+      method: :post,
+      class: "qty-btn" %>
+
+      <span class="qty-number"><%= item.quantity %></span>
+
+      <%= button_to "+",
+      cart_increase_path(item.id),
+      method: :post,
+      class: "qty-btn" %>
+    </p>
+    <% price = currency == "bs" ? product.price_bs : product.price_usd %>
+    <p> Precio unitario:
+      <%= currency == "bs" ? "Bs" : "$" %><%= price %>
+    </p>
+    <% subtotal = price * item.quantity %>
+   
+    <% total += subtotal %>
+    <%= button_to "Eliminar", "/cart/remove/#{item.id}", method: :delete %>
+  </div>
+  <% end %>
+  <h2>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h2>
+  <%= button_to "Ordenar", cart_checkout_path, method: :post %>
+</div>

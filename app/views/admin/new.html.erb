@@ -1,2 +1,43 @@
-<h1>Admin#new</h1>
-<p>Find me in app/views/admin/new.html.erb</p>
+<h2>Agregar Nuevo Producto</h2>
+
+<%= form_with model: @product, url: "/admin/create", local: true do |f| %>
+
+<div>
+<%= f.label :name %>
+<%= f.text_field :name %>
+</div>
+
+<div>
+<%= f.label :description %>
+<%= f.text_area :description %>
+</div>
+
+<div>
+<%= f.label :price_usd %>
+<%= f.number_field :price_usd %>
+</div>
+
+<div>
+<%= f.label :price_bs %>
+<%= f.number_field :price_bs %>
+</div>
+
+<div>
+<%= f.label :category %>
+<%= f.select :category, ["detal", "mayor"] %>
+</div>
+
+<div>
+<%= f.label :quantity, "Stock disponible" %>
+<%= f.number_field :quantity %>
+</div>
+
+<div>
+<%= f.label :image %>
+<%= f.file_field :image %>
+</div>
+
+<%= f.submit "Crear Producto" %>
+<%= link_to "Cancel", "/admin" %>
+
+<% end %>
