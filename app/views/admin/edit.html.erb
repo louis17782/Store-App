@@ -1,0 +1,40 @@
+<h1>editar producto</h1>
+
+<%= form_with model: @product, url: "/admin/update/#{@product.id}", method: :patch, local: true do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :price_usd %>
+    <%= f.number_field :price_usd %>
+  </div>
+
+  <div>
+    <%= f.label :price_bs %>
+    <%= f.number_field :price_bs %>
+  </div>
+
+  <div>
+    <%= f.label :category %>
+    <%= f.select :category, ["detal", "mayor"] %>
+  </div>
+
+  <div>
+    <%= f.label :quantity, "Stock disponible" %>
+    <%= f.number_field :quantity %>
+  </div>
+
+  <div>
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+
+  <%= f.submit "Actualizar Producto" %>
+<% end %>

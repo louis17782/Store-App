@@ -1,2 +1,23 @@
-<h1>Products#index</h1>
-<p>Find me in app/views/products/index.html.erb</p>
+<h1>Productos</h1>
+<div class="filters">
+  <button onclick="setCurrency('usd')">Divisas</button>
+  <button onclick="setCurrency('bs')">Bolívares</button>
+</div>
+<div class="products-grid">
+  <% @products.each do |product| %>
+  <div class="product-card product" data-usd="<%= product.price_usd %> "data-bs="<%= product.price_bs %>">
+    <% if product.image.attached? %>
+    <%= image_tag product.image, width: 200 %>
+    <% end %>
+    <h3><%= product.name %></h3>
+    <p><%= product.description %></p>
+    <% currency = session[:currency] || "usd" %>
+    <p class="price"> <%= currency == "usd" ? "$#{product.price_usd}" : "Bs #{product.price_bs}" %></p>
+    <% if product.quantity > 0 %>
+      <%= button_to "Agregar al carrito", add_to_cart_path(product.id), method: :post, form: { data: { turbo_stream: true }} %>
+    <% else %>
+      <p class="out-of-stock">Agotado</p>
+    <% end %>
+  </div>
+  <% end %>
+</div>
