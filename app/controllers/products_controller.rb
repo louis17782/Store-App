@@ -1,9 +1,17 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.all
+    @products = Product.where(category: "Detal")
   end
 
   def show
+  end
+
+  def retail
+   @products = Product.where(category: "Detal")
+  end
+
+  def wholesale
+    @products = Product.where(category: "Mayor")
   end
 
   def set_currency

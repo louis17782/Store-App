@@ -9,8 +9,12 @@ class AdminController < ApplicationController
   end
 
   def create
-    Product.create(product_params)
-    redirect_to "/admin"
+    @product = Product.new(product_params)
+    if @product.save
+      redirect_to "/admin", notice: "Producto creado exitosamente"
+    else
+      render :new
+    end
   end
   def edit
     @product = Product.find(params[:id])
@@ -25,6 +29,14 @@ class AdminController < ApplicationController
     product = Product.find(params[:id])
     product.update(product_params)
     redirect_to "/admin"
+  end
+
+  def retail
+    @products = Product.where(category: "Detal")
+  end
+
+  def wholesale
+    @products = Product.where(category: "Mayor")
   end
 
   private

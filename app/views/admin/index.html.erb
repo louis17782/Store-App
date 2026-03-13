@@ -1,5 +1,8 @@
 <h1>Panel Admin</h1>
 
+<a href="/admin/retail">al detal</a>
+<a href="/admin/wholesale">mayor</a>
+
 <a href="/admin/new">➕ Nuevo Producto</a>
 
 <div class="products-grid">
@@ -11,6 +14,7 @@
     <%= image_tag product.image if product.image.attached? %>
 
     <h3><%= product.name %></h3>
+    <p>Tipo: <%= product.category %></p>
 
     <p>Stock: <%= product.quantity %></p>
 
