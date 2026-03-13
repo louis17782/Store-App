@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   root "products#index"
 
-  resources :products, only: [ :index, :show ]
+  resources :products, only: [ :index, :show ] do
+    collection do
+      get :wholesale
+    end
+  end
+
 
   get "/cart", to: "cart#index"
   post "/cart/add/:product_id", to: "cart#add", as: :add_to_cart
@@ -18,6 +23,9 @@ Rails.application.routes.draw do
   post "/cart/decrease/:id", to: "cart#decrease", as: :cart_decrease
   post "/cart/checkout", to: "cart#checkout", as: :cart_checkout
   get "/order/success", to: "cart#success", as: :order_success
+
+  get "/admin/retail", to: "admin#retail"
+  get "/admin/wholesale", to: "admin#wholesale"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

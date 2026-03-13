@@ -1,6 +1,12 @@
-<h1>Productos</h1>
+<h1>Productos al Mayor</h1>
+
 <a href="/">Al detal</a>
 <a href="/products/wholesale">Al mayor</a>
+
+<div class="filters">
+  <button onclick="setCurrency('usd')">Divisas</button>
+  <button onclick="setCurrency('bs')">Bolívares</button>
+</div>
 
 <div class="products-grid">
 
@@ -15,7 +21,7 @@ data-bs="<%= product.price_bs %>">
 <% end %>
 
 <h3><%= product.name %></h3>
-<p>Tipo: <%= product.category %></p>
+<p>Tipo:<%= product.category %></p>
 
 <p><%= product.description %></p>
 

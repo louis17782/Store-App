@@ -1,0 +1,23 @@
+<h1>Productos al Detal</h1>
+
+<div class="products-grid">
+
+  <% @products.each do |product| %>
+    <div class="product-card">
+      <%= image_tag product.image if product.image.attached? %>
+
+      <h3><%= product.name %></h3>
+
+      <p>$<%= product.price_usd %></p>
+      <p>Tipo: <%= product.category %></p>
+
+      <a href="/admin/edit/<%= product.id %>">✏️ Editar</a>
+
+      <%= button_to "🗑 Eliminar",
+      "/admin/destroy/#{product.id}",
+      method: :delete,
+      data: { confirm: "¿Seguro que deseas eliminar este producto?" } %>
+    </div>
+  <% end %>
+</div>
+  <%= link_to "volver", "/admin" %>
