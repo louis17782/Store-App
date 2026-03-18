@@ -1,18 +1,17 @@
-<h1>Productos</h1>
-
-<div class="filters">
-  <button onclick="setCurrency('usd')">Divisas</button>
-  <button onclick="setCurrency('bs')">Bolívares</button>
-</div>
-
 <div class="admin-menu">
-  <%= link_to "Al Detal",
-  products_path(category_id: params[:category_id], sale_type: "Detal"),
-  class: ("active-filter" if params[:sale_type] == "Detal") %>
+  <div> 
+    <%= link_to "AL DETAL",
+    products_path(category_id: params[:category_id], sale_type: "Detal"),
+    class: ("active-filter" if params[:sale_type] == "Detal") %>
 
-  <%= link_to "Al Mayor",
-  products_path(category_id: params[:category_id], sale_type: "Mayor"),
-  class: ("active-filter" if params[:sale_type] == "Mayor") %>
+    <%= link_to "AL MAYOR",
+    products_path(category_id: params[:category_id], sale_type: "Mayor"),
+    class: ("active-filter" if params[:sale_type] == "Mayor") %>
+  </div>
+  <div>
+    <button  onclick="setCurrency('usd')">Divisas</button>
+    <button onclick="setCurrency('bs')">Bolívares</button>
+  </div>
 </div>
 <!-- hamburguer -->
 <div class="category-hamburger" id="openSidebar">
@@ -35,6 +34,8 @@
     <% end %>
   </ul>
 </div>
+
+<a href="/"><h1>PRODUCTOS</h1></a>
 
 <div class="products-grid">
   <% @products.each do |product| %>
