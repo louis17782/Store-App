@@ -2,6 +2,12 @@ class AdminController < ApplicationController
   before_action :authenticate
   def index
     @products = Product.all
+    if params[:category_id].present?
+      @products = @products.where(category_id: params[:category_id])
+    end
+    if params[:sale_type].present?
+      @products = @products.where(sale_type: params[:sale_type])
+    end
   end
 
   def new
@@ -31,17 +37,9 @@ class AdminController < ApplicationController
     redirect_to "/admin"
   end
 
-  def retail
-    @products = Product.where(category: "Detal")
-  end
-
-  def wholesale
-    @products = Product.where(category: "Mayor")
-  end
-
   private
   def product_params
-    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :category, :quantity, :image)
+    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :sale_type, :category_id, :quantity, :image)
   end
 
   def authenticate

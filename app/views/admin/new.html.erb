@@ -22,9 +22,12 @@
 <%= f.number_field :price_bs %>
 </div>
 
+<%= f.label :sale_type, "Tipo de venta" %>
+<%= f.select :sale_type, ["Detal", "Mayor"] %>
+
 <div>
-<%= f.label :category %>
-<%= f.select :category, ["Detal", "Mayor"] %>
+  <%= f.label :category_id, "Categoría del producto" %>
+  <%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Seleccionar categoría" %>
 </div>
 
 <div>
@@ -41,3 +44,4 @@
 <%= link_to "Cancel", "/admin" %>
 
 <% end %>
+<%= link_to "Volver al inicio", "/admin", class: "back-link" %>

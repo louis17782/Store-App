@@ -2,3 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "controllers/currency"
+import "controllers/category_sidebar"

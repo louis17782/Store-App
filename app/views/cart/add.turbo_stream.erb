@@ -5,3 +5,9 @@
     </span>
   </template>
 </turbo-stream>
+
+<turbo-stream action="replace" target="cart-items">
+  <template>
+    <%= render partial: "cart/cart_items", formats: [:html] %>
+  </template>
+</turbo-stream>

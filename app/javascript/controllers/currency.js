@@ -32,3 +32,5 @@ window.updatePrices = function(){
 document.addEventListener("DOMContentLoaded", () => {
   updatePrices()
 })
+
+

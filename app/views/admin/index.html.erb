@@ -1,20 +1,50 @@
-<h1>Panel Admin</h1>
+<a href="/admin"><h1>Panel Admin</h1></a>
 
-<a href="/admin/retail">al detal</a>
-<a href="/admin/wholesale">mayor</a>
+<div class="admin-menu">
+  <%= link_to "Al Detal",
+  admin_path(category_id: params[:category_id], sale_type: "Detal"),
+  class: ("active-filter" if params[:sale_type] == "Detal") %>
 
-<a href="/admin/new">➕ Nuevo Producto</a>
+  <%= link_to "Al Mayor",
+  admin_path(category_id: params[:category_id], sale_type: "Mayor"),
+  class: ("active-filter" if params[:sale_type] == "Mayor") %>
+
+  <a href="/admin/new">➕ Nuevo Producto</a>
+  <a href="/admin/categories">📂 Categorías</a>
+</div>
+
+<!-- hamburguer -->
+<div class="category-hamburger" id="openSidebar">
+  <i class="ph ph-list"></i>
+</div>
+
+<!-- Sidebar -->
+<div class="category-sidebar" id="categorySidebar">
+    <div class="sidebar-header">
+      <span class="close-btn" id="closeSidebar">&times;</span>
+      <h3>Categorías</h3>
+    </div>
+
+  <ul class="admin-categories-list">
+    <% Category.all.each do |category| %>
+      <li class="<%= 'active-filter' if params[:category_id].to_i == category.id %>">
+        <%= link_to category.name,
+            admin_path(category_id: category.id, sale_type: params[:sale_type]), class: "category-link" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
 
 <div class="products-grid">
 
-  <<% @products.each do |product| %>
+  <% @products.each do |product| %>
 
   <div class="product-card">
 
     <%= image_tag product.image if product.image.attached? %>
 
     <h3><%= product.name %></h3>
-    <p>Tipo: <%= product.category %></p>
+    <p>Tipo: <%= product.sale_type %></p>
 
     <p>Stock: <%= product.quantity %></p>
 
