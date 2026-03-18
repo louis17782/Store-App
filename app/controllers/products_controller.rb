@@ -1,17 +1,16 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.where(category: "Detal")
+       @products = Product.all
+    if params[:category_id].present?
+      @products = @products.where(category_id: params[:category_id])
+    end
+    if params[:sale_type].present?
+      @products = @products.where(sale_type: params[:sale_type])
+    end
+    @items = CartItem.where(session_id: current_Session)
   end
 
   def show
-  end
-
-  def retail
-   @products = Product.where(category: "Detal")
-  end
-
-  def wholesale
-    @products = Product.where(category: "Mayor")
   end
 
   def set_currency

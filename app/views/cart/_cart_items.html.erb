@@ -7,20 +7,24 @@
   <div class="cart-item">
     <strong><%= product.name %></strong>
     <p>Stock disponible: <%= product.quantity %></p>
-    <p>
-      Cantidad:
-      <%= button_to "-",
-      cart_decrease_path(item.id),
-      method: :post,
-      class: "qty-btn" %>
+    <div class="content-quantity">
+      <span> Cantidad: </span>
+      <%= form_with url: cart_decrease_path(item.id), method: :post, class: "inline-form", data: { turbo_stream: true } do %>
+      <button class="qty-btn">-</button>
+      <% end %>
 
       <span class="qty-number"><%= item.quantity %></span>
 
-      <%= button_to "+",
-      cart_increase_path(item.id),
-      method: :post,
-      class: "qty-btn" %>
-    </p>
+      <%= form_with url: cart_increase_path(item.id), method: :post, class: "inline-form", data: { turbo_stream: true } do %>
+        <button class="qty-btn">+</button>
+      <% end %>
+
+      <%= form_with url: cart_remove_path(item.id), method: :delete, data: { turbo_stream: true }, class: "inline-form" do %>
+        <button class="delete-icon-btn">
+          <i class="ph ph-trash"></i>
+        </button>
+      <% end %>
+    </div>
     <% price = currency == "bs" ? product.price_bs : product.price_usd %>
     <p> Precio unitario:
       <%= currency == "bs" ? "Bs" : "$" %><%= price %>
@@ -28,9 +32,8 @@
     <% subtotal = price * item.quantity %>
    
     <% total += subtotal %>
-    <%= button_to "Eliminar", "/cart/remove/#{item.id}", method: :delete %>
   </div>
   <% end %>
-  <h2>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h2>
+  <h4>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h4>
   <%= button_to "Ordenar", cart_checkout_path, method: :post %>
 </div>

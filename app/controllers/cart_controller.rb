@@ -1,6 +1,6 @@
 class CartController < ApplicationController
   def index
-    @items = CartItem.where(session_id: current_Session)
+    @items = CartItem.where(session_id: current_Session).order(:id)
   end
 
   def add
@@ -13,6 +13,7 @@ class CartController < ApplicationController
       item.quantity += 1
       item.save
     end
+    @items = CartItem.where(session_id: current_Session).order(:id)
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -20,8 +21,15 @@ class CartController < ApplicationController
   end
 
   def remove
-    CartItem.find(params[:id]).destroy
-    redirect_to cart_path
+    @item = CartItem.find(params[:id])
+    @item.destroy
+
+    @items = CartItem.where(session_id: current_Session).order(:id)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to products_path }
+    end
   end
 
   def update
@@ -38,7 +46,7 @@ class CartController < ApplicationController
       item.quantity += 1
       item.save
     end
-    @items = CartItem.where(session_id: current_Session)
+    @items = CartItem.where(session_id: current_Session).order(:id)
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -51,7 +59,7 @@ class CartController < ApplicationController
       item.quantity -= 1
       item.save
     end
-    @items = CartItem.where(session_id: current_Session)
+    @items = CartItem.where(session_id: current_Session).order(:id)
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -59,7 +67,7 @@ class CartController < ApplicationController
   end
 
   def checkout
-    items = CartItem.where(session_id: current_Session)
+    items = CartItem.where(session_id: current_Session).order(:id)
     items.each do |item|
       product = item.product
       if item.quantity > product.quantity
