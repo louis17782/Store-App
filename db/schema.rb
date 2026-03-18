@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_12_201133) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_14_185441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_201133) do
     t.index ["product_id"], name: "index_cart_items_on_product_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "currency"
@@ -60,7 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_201133) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "category"
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name"
@@ -71,10 +77,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_201133) do
     t.decimal "price_wholesale_bs"
     t.decimal "price_wholesale_usd"
     t.integer "quantity"
+    t.string "sale_type"
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "products", "categories"
 end
