@@ -34,6 +34,8 @@
     <% total += subtotal %>
   </div>
   <% end %>
-  <h4>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h4>
-  <%= button_to "Ordenar", cart_checkout_path, method: :post %>
+  <div class="content-button">
+    <h4>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h4>
+    <%= link_to "Finalizar compra", checkout_path, method: :post, class: "btn-store" %>
+  </div>
 </div>

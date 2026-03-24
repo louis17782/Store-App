@@ -58,7 +58,7 @@
     <%= button_to "🗑 Eliminar",
     "/admin/destroy/#{product.id}",
     method: :delete,
-    data: { confirm: "¿Seguro que deseas eliminar este producto?" } %>
+    data: { turbo_confirm: "¿Seguro que deseas eliminar este producto?" } %>
 
   </div>
 

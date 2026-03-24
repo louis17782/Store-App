@@ -1,3 +1,64 @@
+header {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 402 / 500;
+  overflow: hidden;
+}
+
+#slider {
+  display: flex;
+  width: 300%; 
+  height: 100%;
+  transform: translateX(0);
+  transition: transform 0.5s;
+}
+
+img {
+  width: 100%;
+}
+
+.slide-btn form button {
+  background: #005fcc;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+}
+
+@media (min-width: 600px) {
+  header {
+    aspect-ratio: 402 / 450;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 800px) {
+   header {
+    aspect-ratio: 402 / 480;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 800px;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 1024px) {
+  header {
+    display: none;
+  }
+}
+
 .price {
   font-size: 1rem;
   font-weight: bold;
@@ -84,17 +145,26 @@ line-height:1.5;
 }
 
 .btn-store{
-background:#111;
-color:white;
-padding:12px 28px;
-border-radius:6px;
-text-decoration:none;
-font-weight:600;
-transition:0.2s;
+  text-align: center;
+  background:#111;
+  color:white;
+  padding:12px 28px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.content-button {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:15px;
+  margin-top:20px;
 }
 
 .btn-store:hover{
-background:#333;
+background:#9a0c0c;
 }
 
 @keyframes pop{
@@ -128,8 +198,7 @@ to{opacity:1; transform:translateY(0)}
 
 /* Estilo unificado para TODOS los botones y enlaces */
 .admin-menu a,
-.admin-menu button,
-.product-card form button {
+.admin-menu button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -176,7 +245,7 @@ to{opacity:1; transform:translateY(0)}
   box-shadow: 2px 0 8px rgba(0,0,0,0.1);
   padding: 20px;
   transition: left 0.3s ease;
-  z-index: 1999;
+  z-index: 1998;
 }
 
 .category-sidebar.open {
@@ -233,7 +302,7 @@ to{opacity:1; transform:translateY(0)}
   flex-wrap: wrap;
   gap: 12px;
   padding: 10px;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .product-card {
@@ -244,13 +313,20 @@ to{opacity:1; transform:translateY(0)}
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: calc(50% - 6px); 
+  width: calc(190px - 30px);
   margin: 0; 
+  }
+
+@media (min-width: 300px) and (max-width: 400px) {
+  .product-card {
+    width: calc(150px - 8px);
+  }
 }
 
 .product-card img {
   width: 100%;
-  object-fit: cover;
+  height: 120px; 
+  object-fit: fill;
   border-radius: 8px;
 }
 
@@ -271,25 +347,23 @@ to{opacity:1; transform:translateY(0)}
   font-size: 14px;
   text-align: center;
   margin-top: 8px;
+  cursor: pointer;
 }
 
 .product-card a:hover {
-  background: #005fcc;
+  background: #204169;
 }
 
 .product-card form button {
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 0;
   background: linear-gradient(to bottom, #0400ff, #005fcc);
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 0.80rem;
   margin-top: auto;
-}
-
-.product-card form button:hover {
-  background: #e60000;
+  font-weight: 600;
 }
 
 /* ======== FORM CONTAINER ======== */
@@ -591,15 +665,36 @@ h2 {
   }
 }
 
-/* ======== MOBILE OPTIMIZATION ======== */
-@media (min-width: 600px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+@media (min-width: 1024px) {
 
-@media (min-width: 900px) {
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 250px;
+    margin: 0; 
+  }
+
+  .product-card img {
+    height: 200px; 
+  }
+
+  #cart-sidebar {
+    right: -100%;
+    width: 500px;
+  }
+
+  /* ======== HEADER ======== */
+
+  header {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1440 / 700;
+    overflow-x: hidden;
+    overflow: hidden;
   }
 }

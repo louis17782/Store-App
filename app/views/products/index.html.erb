@@ -1,3 +1,30 @@
+<header>
+  <div id="slider">
+
+    <% Product.with_slider_images.each do |slider_product| %>
+      <div class="slide">
+
+        <% slider_product.slider_images.each do |img| %>
+          <%= image_tag img, alt: slider_product.name %>
+        <% end %>
+
+        <div class="slide-btn">
+          <% if slider_product.quantity > 0 %>
+            <%= button_to "Agregar al carrito",
+                add_to_cart_path(slider_product.id),
+                method: :post,
+                form: { data: { turbo_stream: true }} %>
+          <% else %>
+            <p class="out-of-stock">Agotado</p>
+          <% end %>
+        </div>
+
+      </div>
+    <% end %>
+
+  </div>
+</header>
+
 <div class="admin-menu">
   <div> 
     <%= link_to "AL DETAL",
@@ -17,63 +44,63 @@
 <div class="category-hamburger" id="openSidebar">
   <i class="ph ph-list"></i>
 </div>
+ 
+  <!-- Sidebar -->
+  <div class="category-sidebar" id="categorySidebar">
+      <div class="sidebar-header">
+        <span class="close-btn" id="closeSidebar">&times;</span>
+        <h3>Categorías</h3>
+      </div>
 
-<!-- Sidebar -->
-<div class="category-sidebar" id="categorySidebar">
-    <div class="sidebar-header">
-      <span class="close-btn" id="closeSidebar">&times;</span>
-      <h3>Categorías</h3>
-    </div>
+    <ul class="admin-categories-list">
+      <% Category.all.each do |category| %>
+        <li class="<%= 'active-filter' if params[:category_id].to_i == category.id %>">
+          <%= link_to category.name,
+              products_path(category_id: category.id, sale_type: params[:sale_type]), class: "category-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-  <ul class="admin-categories-list">
-    <% Category.all.each do |category| %>
-      <li class="<%= 'active-filter' if params[:category_id].to_i == category.id %>">
-        <%= link_to category.name,
-            products_path(category_id: category.id, sale_type: params[:sale_type]), class: "category-link" %>
-      </li>
+  <a href="/"><h1>PRODUCTOS</h1></a>
+
+  <div class="products-grid">
+    <% @products.each do |product| %>
+
+      <div class="product-card product"
+        data-usd="<%= product.price_usd %>"
+        data-bs="<%= product.price_bs %>">
+
+        <% if product.image.attached? %>
+        <%= image_tag product.image, width: 200 %>
+        <% end %>
+
+        <h3><%= product.name %></h3>
+        <p>Tipo: <%= product.sale_type %></p>
+
+        <p><%= product.description %></p>
+
+        <% currency = session[:currency] || "usd" %>
+
+        <p class="price">
+        <%= currency == "usd" ? "$#{product.price_usd}" : "Bs #{product.price_bs}" %>
+        </p>
+
+        <% if product.quantity > 0 %>
+
+        <%= button_to "Agregar al carrito",
+        add_to_cart_path(product.id),
+        method: :post,
+        form: { data: { turbo_stream: true }} %>
+
+        <% else %>
+
+        <p class="out-of-stock">Agotado</p>
+
+        <% end %>
+      </div>
     <% end %>
-  </ul>
-</div>
-
-<a href="/"><h1>PRODUCTOS</h1></a>
-
-<div class="products-grid">
-  <% @products.each do |product| %>
-
-    <div class="product-card product"
-      data-usd="<%= product.price_usd %>"
-      data-bs="<%= product.price_bs %>">
-
-      <% if product.image.attached? %>
-      <%= image_tag product.image, width: 200 %>
-      <% end %>
-
-      <h3><%= product.name %></h3>
-      <p>Tipo: <%= product.sale_type %></p>
-
-      <p><%= product.description %></p>
-
-      <% currency = session[:currency] || "usd" %>
-
-      <p class="price">
-      <%= currency == "usd" ? "$#{product.price_usd}" : "Bs #{product.price_bs}" %>
-      </p>
-
-      <% if product.quantity > 0 %>
-
-      <%= button_to "Agregar al carrito",
-      add_to_cart_path(product.id),
-      method: :post,
-      form: { data: { turbo_stream: true }} %>
-
-      <% else %>
-
-      <p class="out-of-stock">Agotado</p>
-
-      <% end %>
-    </div>
-  <% end %>
-</div>
+  </div>
 <div id="floating-cart" onclick="openCartSidebar()">
   <i class="ph ph-shopping-cart"></i>
   <span id="cart-count"><%= CartItem.where(session_id: current_Session).sum(:quantity) %></span>
@@ -100,4 +127,19 @@ function closeCartSidebar() {
   document.getElementById("cart-sidebar").classList.remove("open");
   document.getElementById("floating-cart").classList.remove("hidden");
 }
+
+let currentPosition = 1;
+
+  const slide = () => {
+    const slider = document.getElementById('slider');
+    slider.style.transform = `translateX(${-100 * currentPosition / 3}%)`;
+
+    if (currentPosition === 2) {
+      currentPosition = 0;
+    } else {
+      currentPosition++;
+    }
+  }
+
+  setInterval(slide, 5000);
 </script>
