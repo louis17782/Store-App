@@ -39,7 +39,7 @@ class AdminController < ApplicationController
 
   private
   def product_params
-    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :sale_type, :category_id, :quantity, :image)
+    params.require(:product).permit(:name, :description, :price_usd, :price_bs, :sale_type, :category_id, :quantity, :image, slider_images: [])
   end
 
   def authenticate

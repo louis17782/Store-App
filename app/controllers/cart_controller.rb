@@ -67,22 +67,55 @@ class CartController < ApplicationController
   end
 
   def checkout
+    @items = CartItem.where(session_id: current_Session).order(:id)
+
+    if @items.empty?
+      redirect_to cart_path, alert: "Tu carrito está vacío"
+    end
+  end
+
+  # ✅ ENVÍA A WHATSAPP
+  def send_order
+    name = params[:name]
+    phone = params[:phone]
+    address = params[:address]
+    delivery = params[:delivery]
+    payment = params[:payment]
+
     items = CartItem.where(session_id: current_Session).order(:id)
+
+    # 🔒 validar stock antes de enviar
     items.each do |item|
-      product = item.product
-      if item.quantity > product.quantity
-        redirect_to cart_path, alert: "No hay suficiente stock para #{product.name}"
+      if item.quantity > item.product.quantity
+        redirect_to cart_path, alert: "Stock insuficiente para #{item.product.name}"
         return
       end
     end
+
+    # 📦 construir productos
+    products = items.map do |item|
+      "• #{item.product.name} x#{item.quantity}"
+    end.join("\n")
+    message = <<~TEXT
+    🛒 *Nuevo Pedido*
+    👤 Nombre: #{name}
+    📞 Teléfono: #{phone}
+    📍 Dirección: #{address}
+    🚚 Entrega: #{delivery}
+    💳 Pago: #{payment}
+    📦 Productos:
+    #{products}
+    TEXT
+    encoded_message = ERB::Util.url_encode(message)
+
     items.each do |item|
       product = item.product
       product.update(quantity: product.quantity - item.quantity)
     end
+    # limpiar carrito
     items.destroy_all
-    redirect_to order_success_path
+    redirect_to "https://wa.me/584127924818?text=#{encoded_message}", allow_other_host: true
   end
-
   def success
   end
 end

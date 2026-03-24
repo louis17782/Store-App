@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   delete "/cart/remove/:id", to: "cart#remove", as: :cart_remove
   post "set_currency/:currency", to: "products#set_currency", as: :set_currency
 
+  get "/checkout", to: "cart#checkout", as: :checkout
+  post "/send", to: "cart#send_order", as: :send_order
+
   get "/admin", to: "admin#index"
   get "/admin/new", to: "admin#new"
   post "/admin/create", to: "admin#create"
@@ -16,13 +19,13 @@ Rails.application.routes.draw do
   delete "/admin/destroy/:id", to: "admin#destroy", as: :destroy_product
   post "/cart/increase/:id", to: "cart#increase", as: :cart_increase
   post "/cart/decrease/:id", to: "cart#decrease", as: :cart_decrease
-  post "/cart/checkout", to: "cart#checkout", as: :cart_checkout
   get "/order/success", to: "cart#success", as: :order_success
 
   get "/admin/categories", to: "categories#index"
   get "/admin/categories/new", to: "categories#new"
   post "/admin/categories", to: "categories#create"
   delete "/admin/categories/:id", to: "categories#destroy", as: :delete_category
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

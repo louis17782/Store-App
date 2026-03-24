@@ -10,7 +10,7 @@
       <%= button_to "Eliminar",
           delete_category_path(category),
           method: :delete,
-          data: { confirm: "¿Eliminar categoría?" } %>
+          data: { turbo_confirm: "¿Estas seguro de eliminar la categoría? puede tener productos asociados" } %>
     </li>
   <% end %>
 </ul>

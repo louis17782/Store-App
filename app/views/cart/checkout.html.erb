@@ -1,0 +1,46 @@
+<div class="check-title"> 
+  <h2>Finalizar Pedido</h2>
+  <p>Completa los datos para enviar tu pedido</p>
+</div>
+<%= form_with url: send_order_path, method: :post, data: { turbo: false } do %>
+
+  <%= text_field_tag :name, nil, placeholder: "Nombre completo", required: true %>
+  <%= telephone_field_tag :phone, nil, placeholder: "Teléfono", required: true %>
+
+  <div>
+    <%= text_field_tag :address, nil, id: "address", placeholder: "Dirección", required: true %>
+    <button type="button" id="getLocation">Usar mi ubicación</button>
+  </div>
+
+  <h3>Tipo de entrega</h3>
+  <label><%= radio_button_tag :delivery, "Delivery ciudad", true %> Delivery dentro de la ciudad</label>
+  <label><%= radio_button_tag :delivery, "Envío nacional" %> Envío nacional</label>
+
+  <h3>Método de pago</h3>
+  <label><%= radio_button_tag :payment, "Pago móvil", true %> Pago móvil</label>
+  <label><%= radio_button_tag :payment, "Binance" %> Binance</label>
+  <label><%= radio_button_tag :payment, "Zelle" %> Zelle</label>
+  <label><%= radio_button_tag :payment, "Zinli" %> Zinli</label>
+  <label><%= radio_button_tag :payment, "Efectivo" %> Efectivo</label>
+
+  <%= submit_tag "Enviar pedido por WhatsApp" %>
+
+<%= link_to "Volver a la tienda", root_path, class: "btn-store" %>
+<% end %>
+
+
+<script>
+document.getElementById("getLocation").addEventListener("click", function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      const link = `https://www.google.com/maps?q=${lat},${lng}`;
+      document.getElementById("address").value = link;
+    });
+  } else {
+    alert("GPS no soportado");
+  }
+});
+</script>
