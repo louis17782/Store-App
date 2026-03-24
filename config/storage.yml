@@ -13,7 +13,6 @@ amazon:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-east-2
   bucket: la-tienda-antonio-images-339529821562-us-east-2-an
-  public: true
   upload: 
     acl: nil
 
