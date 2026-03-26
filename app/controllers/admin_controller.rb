@@ -17,9 +17,9 @@ class AdminController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to "/admin", notice: "Producto creado exitosamente"
+      redirect_to admin_path, status: :see_other, notice: "Producto creado exitosamente"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   def edit
