@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get "/admin/categories/new", to: "categories#new"
   post "/admin/categories", to: "categories#create"
   delete "/admin/categories/:id", to: "categories#destroy", as: :delete_category
+  patch "/admin/update_rate", to: "admin#update_rate", as: :update_rate
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
