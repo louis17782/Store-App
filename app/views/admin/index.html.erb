@@ -20,7 +20,7 @@
   <h3>Tasa del día</h3>
 
   <%= form_with url: update_rate_path, method: :patch, local: true do %>
-    <input type="number" step="0.01" name="rate" value="<%= Setting.first.rate %>">
+    <input type="number" step="0.01" name="rate" value="<%= Setting.current.rate %>">
     <button type="submit">Actualizar</button>
   <% end %>
 </div>
