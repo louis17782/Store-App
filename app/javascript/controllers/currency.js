@@ -1,3 +1,7 @@
+function formatNumber(num) {
+  return Number(num).toLocaleString("en-US");
+}
+
 let currency = window.APP_CURRENCY || "usd"
 
 window.setCurrency = function(type){
@@ -21,9 +25,9 @@ window.updatePrices = function(){
     const price = product.querySelector(".price")
 
     if(currency === "usd"){
-      price.innerText = "$" + usd
+      price.innerText = "$" + formatNumber(usd)
     }else{
-      price.innerText = "Bs " + bs
+      price.innerText = "Bs " + formatNumber(bs)
     }
 
   })

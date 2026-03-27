@@ -83,7 +83,9 @@
         <% currency = session[:currency] || "usd" %>
 
         <p class="price">
-        <%= currency == "usd" ? "$#{product.price_usd}" : "Bs #{product.price_bs}" %>
+          <%= currency == "usd" ?
+          "$#{number_with_delimiter(product.price_usd, delimiter: ',')}" :
+          "Bs #{number_with_delimiter(product.price_bs, delimiter: ',')}" %>
         </p>
 
         <% if product.quantity > 0 %>

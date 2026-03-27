@@ -37,6 +37,19 @@ class AdminController < ApplicationController
     redirect_to "/admin"
   end
 
+  def update_rate
+    rate = params[:rate].to_f
+
+    Setting.first.update(rate: rate)
+
+    # Recalcular todos los productos
+    Product.find_each do |product|
+      product.update(price_bs: product.price_usd * rate)
+    end
+
+    redirect_to admin_path, notice: "Tasa actualizada y precios recalculados"
+  end
+
   private
   def product_params
     params.require(:product).permit(:name, :description, :price_usd, :price_bs, :sale_type, :category_id, :quantity, :image, slider_images: [])
