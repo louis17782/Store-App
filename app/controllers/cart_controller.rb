@@ -92,6 +92,17 @@ class CartController < ApplicationController
       end
     end
 
+  currency = session[:currency] || "usd"
+
+  # Calcular total
+  total = items.sum do |item|
+    price = currency == "bs" ? item.product.price_bs : item.product.price_usd
+    price * item.quantity
+  end
+
+  formatted_total = currency == "bs" ? "Bs #{total}" : "$#{total}"
+
+
     # 📦 construir productos
     products = items.map do |item|
       "• #{item.product.name} x#{item.quantity}"
@@ -103,8 +114,9 @@ class CartController < ApplicationController
     📍 Dirección: #{address}
     🚚 Entrega: #{delivery}
     💳 Pago: #{payment}
-    📦 Productos:
-    #{products}
+    📦 Productos: #{products}
+    *Total a pagar: #{formatted_total}*
+
     TEXT
     encoded_message = ERB::Util.url_encode(message)
 
@@ -114,7 +126,7 @@ class CartController < ApplicationController
     end
     # limpiar carrito
     items.destroy_all
-    redirect_to "https://wa.me/584127924818?text=#{encoded_message}", allow_other_host: true
+    redirect_to "https://wa.me/584245647331?text=#{encoded_message}", allow_other_host: true
   end
   def success
   end
