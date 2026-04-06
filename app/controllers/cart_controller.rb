@@ -81,6 +81,8 @@ class CartController < ApplicationController
     address = params[:address]
     delivery = params[:delivery]
     payment = params[:payment]
+    cedula = params[:cedula]
+    agency = params[:agency]
 
     items = CartItem.where(session_id: current_Session).order(:id)
 
@@ -113,6 +115,7 @@ class CartController < ApplicationController
     📞 Teléfono: #{phone}
     📍 Dirección: #{address}
     🚚 Entrega: #{delivery}
+    #{delivery == "Envío nacional" ? "🪪 Cédula: #{cedula}\n🏢 Agencia: #{agency}" : ""}
     💳 Pago: #{payment}
     📦 Productos: #{products}
     *Total a pagar: #{formatted_total}*
