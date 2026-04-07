@@ -49,27 +49,29 @@ document.getElementById("getLocation").addEventListener("click", function() {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("turbo:load", function() {
   const deliveryCity = document.getElementById("delivery_city");
   const deliveryNational = document.getElementById("delivery_national");
   const nationalFields = document.getElementById("national-fields");
 
+  if (!deliveryCity || !deliveryNational) return;
+
   function toggleFields() {
     if (deliveryNational.checked) {
       nationalFields.style.display = "block";
-      // marcar como requeridos
       document.querySelector("[name='cedula']").required = true;
       document.querySelector("[name='agency']").required = true;
     } else {
       nationalFields.style.display = "none";
-      // quitar requeridos
       document.querySelector("[name='cedula']").required = false;
       document.querySelector("[name='agency']").required = false;
     }
   }
 
+  // inicializar estado
+  toggleFields();
+
   deliveryCity.addEventListener("change", toggleFields);
   deliveryNational.addEventListener("change", toggleFields);
 });
-
 </script>
