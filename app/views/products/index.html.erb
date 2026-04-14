@@ -84,8 +84,8 @@
 
         <p class="price">
           <%= currency == "usd" ?
-          "$#{number_with_delimiter(product.price_usd, delimiter: ',')}" :
-          "Bs #{number_with_delimiter(product.price_bs, delimiter: ',')}" %>
+            "$#{number_with_precision(product.price_usd, precision: 2, delimiter: ',')}" :
+            "Bs #{number_with_precision(product.price_bs, precision: 2, delimiter: ',')}" %>
         </p>
 
         <% if product.quantity > 0 %>
