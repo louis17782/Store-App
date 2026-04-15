@@ -246,6 +246,7 @@ to{opacity:1; transform:translateY(0)}
   padding: 20px;
   transition: left 0.3s ease;
   z-index: 1998;
+  overflow-y: auto;
 }
 
 .category-sidebar.open {
