@@ -21,8 +21,12 @@
     <%= select_tag :agency, options_for_select(["MRW", "ZOOM"]), prompt: "Selecciona agencia de envío", required: false %>
   </div>
 
+  <% currency = session[:currency] || "usd" %>
+
   <h3>Método de pago</h3>
-  <label><%= radio_button_tag :payment, "Pago móvil", true %> Pago móvil</label>
+  <% if currency == "bs" %>
+    <label><%= radio_button_tag :payment, "Pago móvil", true %> Pago móvil</label>
+  <% end %>
   <label><%= radio_button_tag :payment, "Binance" %> Binance</label>
   <label><%= radio_button_tag :payment, "Zelle" %> Zelle</label>
   <label><%= radio_button_tag :payment, "Zinli" %> Zinli</label>
