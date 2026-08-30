@@ -1,41 +1,68 @@
+<!-- filepath: /home/louis39/projects/Store-App/Store-App/app/views/cart/_cart_items.html.erb -->
 <% currency = session[:currency] || "usd" %>
+<% total = 0 %>
 
 <div id="cart-items">
-  <% total = 0 %>
   <% @items.each do |item| %>
-  <% product = item.product %>
-  <div class="cart-item">
-    <strong><%= product.name %></strong>
-    <p>Stock disponible: <%= product.quantity %></p>
-    <div class="content-quantity">
-      <span> Cantidad: </span>
-      <%= form_with url: cart_decrease_path(item.id), method: :post, class: "inline-form", data: { turbo_stream: true } do %>
-      <button class="qty-btn">-</button>
-      <% end %>
-
-      <span class="qty-number"><%= item.quantity %></span>
-
-      <%= form_with url: cart_increase_path(item.id), method: :post, class: "inline-form", data: { turbo_stream: true } do %>
-        <button class="qty-btn">+</button>
-      <% end %>
-
-      <%= form_with url: cart_remove_path(item.id), method: :delete, data: { turbo_stream: true }, class: "inline-form" do %>
-        <button class="delete-icon-btn">
-          <i class="ph ph-trash"></i>
-        </button>
-      <% end %>
-    </div>
+    <% product = item.product %>
     <% price = currency == "bs" ? product.price_bs : product.price_usd %>
-    <p> Precio unitario:
-      <%= currency == "bs" ? "Bs" : "$" %><%= price %>
-    </p>
     <% subtotal = price * item.quantity %>
-   
     <% total += subtotal %>
-  </div>
+
+    <div class="cart-item">
+      <div class="cart-product-image">
+        <% if product.image.attached? %>
+          <%= image_tag product.image, alt: product.name %>
+        <% end %>
+      </div>
+
+      <div class="cart-product-info">
+        <strong><%= product.name %></strong>
+
+        <p class="cart-unit-price">
+          <%= currency == "bs" ? "Bs" : "$" %><%= price %>
+          <small>c/u</small>
+        </p>
+        <div class="content-quantity">
+          <%= button_to "-", cart_decrease_path(item.id),
+              method: :post,
+              class: "qty-btn",
+              form: { data: { turbo_stream: true } } %>
+
+          <span class="qty-number"><%= item.quantity %></span>
+
+          <%= button_to "+", cart_increase_path(item.id),
+              method: :post,
+              class: "qty-btn",
+              form: { data: { turbo_stream: true } } %>
+
+          <%= button_to cart_remove_path(item.id),
+              method: :delete,
+              class: "delete-icon-btn",
+              form: { data: { turbo_stream: true } } do %>
+            <i class="ph ph-trash"></i>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="cart-item-total">
+        <span>TOTAL</span>
+        <strong>
+          <%= currency == "bs" ? "Bs" : "$" %><%= subtotal %>
+        </strong>
+      </div>
+    </div>
   <% end %>
+
   <div class="content-button">
-    <h4>Total: <%= currency == "bs" ? "Bs" : "$" %><%= total %></h4>
-    <%= link_to "Finalizar compra", checkout_path, method: :post, class: "btn-store" %>
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <strong>
+        <%= currency == "bs" ? "Bs" : "$" %><%= total %>
+      </strong>
+    </div>
+
+    <%= link_to "Proceder al pago", checkout_path,
+        class: "btn-store" %>
   </div>
 </div>
