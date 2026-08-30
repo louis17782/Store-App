@@ -33,19 +33,20 @@ document.addEventListener("turbo:load", () => {
 
   if (!searchInput || !searchForm) return;
 
-  let searchTimeout;
-
-  searchInput.addEventListener("input", () => {
-    clearTimeout(searchTimeout);
-
-    searchTimeout = setTimeout(() => {
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
       searchForm.requestSubmit();
-    }, 400);
+    }
+  });
+
+  searchInput.addEventListener("search", () => {
+    searchForm.requestSubmit();
   });
 
   document.querySelectorAll(".dropdown-options a, .dropdown-options button").forEach(option => {
-  option.addEventListener("click", () => {
-    option.closest("details").open = false;
+    option.addEventListener("click", () => {
+      option.closest("details").open = false;
+    });
   });
-});
 });
