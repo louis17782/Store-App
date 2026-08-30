@@ -3,31 +3,49 @@ document.addEventListener("turbo:load", () => {
   const openBtn = document.getElementById("openSidebar");
   const closeBtn = document.getElementById("closeSidebar");
 
-  if (!sidebar || !openBtn || !closeBtn) return;
+  if (sidebar && openBtn && closeBtn) {
+    openBtn.addEventListener("click", () => {
+      sidebar.classList.add("open");
+    });
 
-  // Abrir sidebar
-  openBtn.addEventListener("click", () => {
-    sidebar.classList.add("open");
-  });
-
-  // Cerrar sidebar con botón X
-  closeBtn.addEventListener("click", () => {
-    sidebar.classList.remove("open");
-  });
-
-  // Cerrar sidebar al hacer clic en una categoría
-  document.querySelectorAll(".category-link").forEach(link => {
-    link.addEventListener("click", () => {
+    closeBtn.addEventListener("click", () => {
       sidebar.classList.remove("open");
     });
+
+    document.querySelectorAll(".category-link").forEach(link => {
+      link.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+      });
+    });
+
+    document.addEventListener("click", event => {
+      const clickedInside =
+        sidebar.contains(event.target) || openBtn.contains(event.target);
+
+      if (!clickedInside) {
+        sidebar.classList.remove("open");
+      }
+    });
+  }
+
+  const searchInput = document.getElementById("product-search-input");
+  const searchForm = document.getElementById("product-search-form");
+
+  if (!searchInput || !searchForm) return;
+
+  let searchTimeout;
+
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+
+    searchTimeout = setTimeout(() => {
+      searchForm.requestSubmit();
+    }, 400);
   });
 
-  // Cerrar sidebar al hacer clic fuera
-  document.addEventListener("click", (event) => {
-    const clickedInside = sidebar.contains(event.target) || openBtn.contains(event.target);
-
-    if (!clickedInside) {
-      sidebar.classList.remove("open");
-    }
+  document.querySelectorAll(".dropdown-options a, .dropdown-options button").forEach(option => {
+  option.addEventListener("click", () => {
+    option.closest("details").open = false;
   });
+});
 });

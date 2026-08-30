@@ -24,19 +24,7 @@
     <button type="submit">Actualizar</button>
   <% end %>
 </div>
-
-<!-- hamburguer -->
-<div class="category-hamburger" id="openSidebar">
-  <i class="ph ph-list"></i>
-</div>
-
-<!-- Sidebar -->
-<div class="category-sidebar" id="categorySidebar">
-    <div class="sidebar-header">
-      <span class="close-btn" id="closeSidebar">&times;</span>
-      <h3>Categorías</h3>
-    </div>
-
+<div class="flex-category">
   <ul class="admin-categories-list">
     <% Category.all.each do |category| %>
       <li class="<%= 'active-filter' if params[:category_id].to_i == category.id %>">

@@ -1,6 +1,14 @@
 class ProductsController < ApplicationController
   def index
-       @products = Product.all
+      @products = Product.all
+      if params[:q].present?
+        search = "%#{params[:q].strip}%"
+
+        @products = @products.where(
+          "name ILIKE :search OR description ILIKE :search",
+          search: search
+        )
+      end
     if params[:category_id].present?
       @products = @products.where(category_id: params[:category_id])
     end

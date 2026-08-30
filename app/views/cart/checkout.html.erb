@@ -37,6 +37,34 @@
 <%= link_to "Volver a la tienda", root_path, class: "btn-store" %>
 <% end %>
 
+<footer class="site-footer">
+  <%= image_tag "logofooter.png", alt: "Glowtech Electronics", class: "footer-logo" %>
+<div>
+  <p class="payment-title">Social Shop</p>
+  <a href="https://instagram.com/" target="_blank" rel="noopener" class="instagram-link">
+  <%= image_tag "instagram.png", alt: "Instagram" %>
+  </a>
+</div>
+<div> 
+  <p class="payment-title">Métodos de pago</p>
+
+  <div class="payment-methods">
+    <%= image_tag "visa.png", alt: "Visa" %>
+  </div>
+</div>
+<div>
+  <p>
+    Desarrollado por
+    <a href="https://luissanteliz.netlify.app" target="_blank" rel="noopener">
+      Louis Santeliz
+    </a>
+  </p>
+
+  <p class="copyright">
+    © 2026 Glowtech Electronics. Todos los derechos reservados.
+  </p>
+</div>
+</footer>
 
 <script>
 document.getElementById("getLocation").addEventListener("click", function() {
