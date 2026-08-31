@@ -71,28 +71,14 @@
 </div>
 <header>
   <div id="slider">
+    <% Product.with_slider_images.limit(3).each do |slider_product| %>
+      <% slider_image = slider_product.slider_images.first %>
+      <% next unless slider_image %>
 
-    <% Product.with_slider_images.each do |slider_product| %>
       <div class="slide">
-
-        <% slider_product.slider_images.each do |img| %>
-          <%= image_tag img, alt: slider_product.name %>
-        <% end %>
-
-        <div class="slide-btn">
-          <% if slider_product.quantity > 0 %>
-            <%= button_to "Agregar al carrito",
-                add_to_cart_path(slider_product.id),
-                method: :post,
-                form: { data: { turbo_stream: true }} %>
-          <% else %>
-            <p class="out-of-stock">Agotado</p>
-          <% end %>
-        </div>
-
+        <%= image_tag slider_image, alt: slider_product.name %>
       </div>
     <% end %>
-
   </div>
 </header>
 
@@ -210,18 +196,17 @@
     clearInterval(window.sliderInterval);
   }
 
-  let currentPosition = 1;
+  const slider = document.getElementById("slider");
+  if (!slider) return;
+
+  const slides = slider.children.length;
+  if (slides <= 1) return;
+
+  let currentPosition = 0;
 
   function slide() {
-    const slider = document.getElementById("slider");
-    if (!slider) return;
-
-    slider.style.transform =
-      `translateX(${-100 * currentPosition / 3}%)`;
-
-    currentPosition = currentPosition === 2
-      ? 0
-      : currentPosition + 1;
+    slider.style.transform = `translateX(${-100 * currentPosition / slides}%)`;
+    currentPosition = (currentPosition + 1) % slides;
   }
 
   window.sliderInterval = setInterval(slide, 5000);
