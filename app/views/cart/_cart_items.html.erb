@@ -1,4 +1,7 @@
 <!-- filepath: /home/louis39/projects/Store-App/Store-App/app/views/cart/_cart_items.html.erb -->
+<% if flash[:alert] %>
+  <p class="cart-alert"><%= flash[:alert] %></p>
+<% end %>
 <% currency = session[:currency] || "usd" %>
 <% total = 0 %>
 
@@ -54,15 +57,26 @@
     </div>
   <% end %>
 
-  <div class="content-button">
-    <div class="cart-subtotal">
-      <span>Subtotal</span>
-      <strong>
-        <%= currency == "bs" ? "Bs" : "$" %><%= total %>
-      </strong>
-    </div>
+ <% minimum_not_met = @items.any? { |item| item.quantity < 6 } %>
 
+<div class="content-button">
+  <div class="cart-subtotal">
+    <span>Subtotal</span>
+    <strong>
+      <%= currency == "bs" ? "Bs" : "$" %><%= total %>
+    </strong>
+  </div>
+
+  <% if minimum_not_met %>
+    <p class="cart-alert">
+      Debes seleccionar un mínimo de 6 piezas por producto.
+    </p>
+
+    <button type="button" class="btn-store" disabled>
+      Proceder al pago
+    </button>
+  <% else %>
     <%= link_to "Proceder al pago", checkout_path,
         class: "btn-store" %>
-  </div>
+  <% end %>
 </div>
