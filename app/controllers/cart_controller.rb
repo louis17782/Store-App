@@ -136,7 +136,7 @@ class CartController < ApplicationController
     end
     # limpiar carrito
     items.destroy_all
-    redirect_to "https://wa.me/584127924818?text=#{encoded_message}", allow_other_host: true
+    redirect_to "https://wa.me/584245647331?text=#{encoded_message}", allow_other_host: true
   end
   def success
   end
