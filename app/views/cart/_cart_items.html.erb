@@ -57,26 +57,27 @@
     </div>
   <% end %>
 
- <% minimum_not_met = @items.any? { |item| item.quantity < 6 } %>
+  <% minimum_not_met = @items.size < 4 %>
 
-<div class="content-button">
-  <div class="cart-subtotal">
-    <span>Subtotal</span>
-    <strong>
-      <%= currency == "bs" ? "Bs" : "$" %><%= total %>
-    </strong>
+  <div class="content-button">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <strong>
+        <%= currency == "bs" ? "Bs" : "$" %><%= total %>
+      </strong>
+    </div>
+
+    <% if minimum_not_met %>
+      <p class="cart-alert">
+        Debes seleccionar un mínimo de 4 productos.
+      </p>
+
+      <button type="button" class="btn-store" disabled>
+        Proceder al pago
+      </button>
+    <% else %>
+      <%= link_to "Proceder al pago", checkout_path,
+          class: "btn-store" %>
+    <% end %>
   </div>
-
-  <% if minimum_not_met %>
-    <p class="cart-alert">
-      Debes seleccionar un mínimo de 6 piezas por producto.
-    </p>
-
-    <button type="button" class="btn-store" disabled>
-      Proceder al pago
-    </button>
-  <% else %>
-    <%= link_to "Proceder al pago", checkout_path,
-        class: "btn-store" %>
-  <% end %>
 </div>
