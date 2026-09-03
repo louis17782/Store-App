@@ -30,6 +30,10 @@ header {
   background: #f5f5f5;
 }
 
+#cart-sidebar.open .site-footer {
+  display: none;
+}
+
 @media (min-width: 600px) {
   header {
     aspect-ratio: 402 / 450;
@@ -55,12 +59,6 @@ header {
    header {
     aspect-ratio: 402 / 480;
   }
-
-  /* .slide img {
-    width: 100%;
-    height: 800px;
-    object-fit: cover;
-  } */
 }
 
 @media (min-width: 1024px) {
@@ -188,42 +186,6 @@ from{opacity:0; transform:translateY(20px)}
 to{opacity:1; transform:translateY(0)}
 }
 
-/* ======== ADMIN MENU ======== */
-/* .admin-menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border-bottom: 1px solid #e5e5e5;
-} */
-
-/* Contenedores de botones */
-/* .admin-menu > div {
-  display: flex;
-  gap: 12px;
-} */
-
-/* Estilo unificado para TODOS los botones y enlaces */
-/* .admin-menu a,
-.admin-menu button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px; 
-  height: 48px;       
-  background: linear-gradient(to bottom, #0400ff, #005fcc);
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-} */
-
 .admin-menu {
   display: flex;
   align-items: center;
@@ -289,51 +251,6 @@ to{opacity:1; transform:translateY(0)}
 .dropdown-options button:hover {
   background: #eaf3ff;
 }
-
-/* ======== HAMBURGER BUTTON ======== */
-/* .category-hamburger {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 2000;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-
-.category-hamburger i {
-  font-size: 2rem;
-} */
-
-/* ======== SIDEBAR ======== */
-/* .category-sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px; 
-  width: 260px;
-  height: 100vh;
-  background: #ffffff;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-  padding: 20px;
-  transition: left 0.3s ease;
-  z-index: 1998;
-  overflow-y: auto;
-} */
-/* 
-.category-sidebar.open {
-  left: 0;
-} */
-
-/* .sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-} */
-
-/* .close-btn {
-  font-size: 24px;
-  cursor: pointer;
-} */
 
 .flex-category {
   width: 100%;
@@ -465,19 +382,6 @@ to{opacity:1; transform:translateY(0)}
     pointer-events: none;
     z-index: 1;
   }
-
-/* @media (min-width: 300px) and (max-width: 400px) {
-  .product-card {
-    width: calc(150px - 8px);
-  }
-} */
-
-/* .product-card img {
-  width: 100%;
-  height: 120px; 
-  object-fit: fill;
-  border-radius: 8px;
-} */
 
 .line-price {
   display: flex;
@@ -912,13 +816,6 @@ h2 {
   color: #8b9bad;
   font-size: 20px;
 }
-
-/* .cart-item-total {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: 20px;
-} */
 
 .cart-item-total span {
   color: #8b96a5;
