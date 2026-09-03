@@ -1,4 +1,6 @@
 class CartController < ApplicationController
+  MINIMUM_QUANTITY = 6
+
   def index
     @items = CartItem.where(session_id: current_Session).order(:id)
   end
@@ -6,14 +8,20 @@ class CartController < ApplicationController
   def add
     product = Product.find(params[:product_id])
 
-    item = CartItem.find_or_initialize_by(product_id: product.id, session_id: current_Session)
+    item = CartItem.find_or_initialize_by(
+      product_id: product.id,
+      session_id: current_Session
+    )
 
     item.quantity ||= 0
+
     if item.quantity < product.quantity
       item.quantity += 1
       item.save
     end
+
     @items = CartItem.where(session_id: current_Session).order(:id)
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -33,20 +41,24 @@ class CartController < ApplicationController
   end
 
   def update
-      item = CartItem.find(params[:id])
-      item.quantity = params[:quantity]
-      item.save
-      redirect_to cart_path
+    item = CartItem.find(params[:id])
+    item.quantity = params[:quantity]
+    item.save
+
+    redirect_to cart_path
   end
 
   def increase
     item = CartItem.find(params[:id])
     product = item.product
+
     if item.quantity < product.quantity
       item.quantity += 1
       item.save
     end
+
     @items = CartItem.where(session_id: current_Session).order(:id)
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -55,11 +67,14 @@ class CartController < ApplicationController
 
   def decrease
     item = CartItem.find(params[:id])
+
     if item.quantity > 1
       item.quantity -= 1
       item.save
     end
+
     @items = CartItem.where(session_id: current_Session).order(:id)
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to cart_path }
@@ -71,10 +86,21 @@ class CartController < ApplicationController
 
     if @items.empty?
       redirect_to cart_path, alert: "Tu carrito está vacío"
+      return
+    end
+
+    invalid_item = @items.find do |item|
+      item.quantity < MINIMUM_QUANTITY
+    end
+
+    if invalid_item
+      redirect_to cart_path,
+        alert: "Debes seleccionar un mínimo de 6 piezas por producto. " \
+               "#{invalid_item.product.name} tiene #{invalid_item.quantity}."
+      return
     end
   end
 
-  # ✅ ENVÍA A WHATSAPP
   def send_order
     name = params[:name]
     phone = params[:phone]
@@ -86,32 +112,43 @@ class CartController < ApplicationController
 
     items = CartItem.where(session_id: current_Session).order(:id)
 
-    # 🔒 validar stock antes de enviar
+    if items.empty?
+      redirect_to cart_path, alert: "Tu carrito está vacío"
+      return
+    end
+
+    invalid_item = items.find do |item|
+      item.quantity < MINIMUM_QUANTITY
+    end
+
+    if invalid_item
+      redirect_to cart_path,
+        alert: "Debes seleccionar un mínimo de 6 piezas por producto. " \
+               "#{invalid_item.product.name} tiene #{invalid_item.quantity}."
+      return
+    end
+
     items.each do |item|
       if item.quantity > item.product.quantity
-        redirect_to cart_path, alert: "Stock insuficiente para #{item.product.name}"
+        redirect_to cart_path,
+          alert: "Stock insuficiente para #{item.product.name}"
         return
       end
     end
 
-  currency = session[:currency] || "usd"
+    currency = session[:currency] || "usd"
 
-  # Calcular total
-  total = items.sum do |item|
-    price = currency == "bs" ? item.product.price_bs : item.product.price_usd
-    price * item.quantity
-  end
+    total = items.sum do |item|
+      price = currency == "bs" ? item.product.price_bs : item.product.price_usd
+      price * item.quantity
+    end
 
-  formatted_total = currency == "bs" ? "Bs #{total}" : "$#{total}"
+    formatted_total = currency == "bs" ? "Bs #{total}" : "$#{total}"
 
-
-    # 📦 construir productos
-    # 📦 construir productos
     products = items.map do |item|
       "• #{item.product.name} x#{item.quantity}"
     end.join("\n")
 
-    # Escribimos los emojis directamente, es 100% compatible con Ruby y evita errores
     message = <<~TEXT
       🛒 *Nuevo Pedido*
       👤 Nombre: #{name}
@@ -126,18 +163,23 @@ class CartController < ApplicationController
 
       *Total a pagar: #{formatted_total}*
     TEXT
-    # 🛠 FORZAMOS a que todo el bloque de texto sea UTF-8 antes de codificarlo
-    message = message.force_encoding('UTF-8')
+
+    message = message.force_encoding("UTF-8")
     encoded_message = URI.encode_www_form_component(message)
 
     items.each do |item|
       product = item.product
       product.update(quantity: product.quantity - item.quantity)
     end
-    # limpiar carrito
+
     items.destroy_all
-    redirect_to "https://wa.me/584245647331?text=#{encoded_message}", allow_other_host: true
+
+    redirect_to(
+      "https://wa.me/584245647331?text=#{encoded_message}",
+      allow_other_host: true
+    )
   end
+
   def success
   end
 end
