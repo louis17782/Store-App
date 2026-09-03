@@ -106,22 +106,29 @@ class CartController < ApplicationController
 
 
     # 📦 construir productos
+    # 📦 construir productos
     products = items.map do |item|
       "• #{item.product.name} x#{item.quantity}"
     end.join("\n")
-    message = <<~TEXT
-    🛒 *Nuevo Pedido*
-    👤 Nombre: #{name}
-    📞 Teléfono: #{phone}
-    📍 Dirección: #{address}
-    🚚 Entrega: #{delivery}
-    #{delivery == "Envío nacional" ? "🪪 Cédula: #{cedula}\n🏢 Agencia: #{agency}" : ""}
-    💳 Pago: #{payment}
-    📦 Productos: #{products}
-    *Total a pagar: #{formatted_total}*
 
+    # Escribimos los emojis directamente, es 100% compatible con Ruby y evita errores
+    message = <<~TEXT
+      🛒 *Nuevo Pedido*
+      👤 Nombre: #{name}
+      🪪 Cédula: #{cedula}
+      📞 Teléfono: #{phone}
+      📍 Dirección: #{address}
+      🚚 Entrega: #{delivery}
+      #{delivery == "Envío nacional" ? "🏢 Agencia: #{agency}" : ""}
+      💳 Pago: #{payment}
+      📦 Productos:
+      #{products}
+
+      *Total a pagar: #{formatted_total}*
     TEXT
-    encoded_message = ERB::Util.url_encode(message)
+    # 🛠 FORZAMOS a que todo el bloque de texto sea UTF-8 antes de codificarlo
+    message = message.force_encoding('UTF-8')
+    encoded_message = URI.encode_www_form_component(message)
 
     items.each do |item|
       product = item.product
@@ -129,7 +136,7 @@ class CartController < ApplicationController
     end
     # limpiar carrito
     items.destroy_all
-    redirect_to "https://wa.me/584245647331?text=#{encoded_message}", allow_other_host: true
+    redirect_to "https://wa.me/584127924818?text=#{encoded_message}", allow_other_host: true
   end
   def success
   end
