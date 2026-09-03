@@ -5,6 +5,7 @@
 <%= form_with url: send_order_path, method: :post, data: { turbo: false } do %>
 
   <%= text_field_tag :name, nil, placeholder: "Nombre completo", required: true %>
+  <%= text_field_tag :cedula, nil, placeholder: "Cédula", required: true %>
   <%= telephone_field_tag :phone, nil, placeholder: "Teléfono", required: true %>
 
   <div>
@@ -17,7 +18,6 @@
   <label><%= radio_button_tag :delivery, "Envío nacional", false, id: "delivery_national" %> Envío nacional</label>
 
   <div id="national-fields" style="display:none; margin-top:10px;">
-    <%= text_field_tag :cedula, nil, placeholder: "Cédula", required: false %>
     <%= select_tag :agency, options_for_select(["MRW", "ZOOM"]), prompt: "Selecciona agencia de envío", required: false %>
   </div>
 
