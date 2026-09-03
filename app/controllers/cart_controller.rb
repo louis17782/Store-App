@@ -1,5 +1,5 @@
 class CartController < ApplicationController
-  MINIMUM_QUANTITY = 6
+  MINIMUM_PRODUCTS = 4
 
   def index
     @items = CartItem.where(session_id: current_Session).order(:id)
@@ -89,14 +89,9 @@ class CartController < ApplicationController
       return
     end
 
-    invalid_item = @items.find do |item|
-      item.quantity < MINIMUM_QUANTITY
-    end
-
-    if invalid_item
+    if @items.size < MINIMUM_PRODUCTS
       redirect_to cart_path,
-        alert: "Debes seleccionar un mínimo de 6 piezas por producto. " \
-               "#{invalid_item.product.name} tiene #{invalid_item.quantity}."
+        alert: "Debes seleccionar un mínimo de 4 productos."
       return
     end
   end
@@ -117,14 +112,9 @@ class CartController < ApplicationController
       return
     end
 
-    invalid_item = items.find do |item|
-      item.quantity < MINIMUM_QUANTITY
-    end
-
-    if invalid_item
+    if items.size < MINIMUM_PRODUCTS
       redirect_to cart_path,
-        alert: "Debes seleccionar un mínimo de 6 piezas por producto. " \
-               "#{invalid_item.product.name} tiene #{invalid_item.quantity}."
+        alert: "Debes seleccionar un mínimo de 4 productos."
       return
     end
 
