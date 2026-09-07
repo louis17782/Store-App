@@ -1,6 +1,4 @@
 class CartController < ApplicationController
-  MINIMUM_PRODUCTS = 4
-
   def index
     @items = CartItem.where(session_id: current_Session).order(:id)
   end
@@ -88,12 +86,6 @@ class CartController < ApplicationController
       redirect_to cart_path, alert: "Tu carrito está vacío"
       return
     end
-
-    if @items.size < MINIMUM_PRODUCTS
-      redirect_to cart_path,
-        alert: "Debes seleccionar un mínimo de 4 productos."
-      return
-    end
   end
 
   def send_order
@@ -109,12 +101,6 @@ class CartController < ApplicationController
 
     if items.empty?
       redirect_to cart_path, alert: "Tu carrito está vacío"
-      return
-    end
-
-    if items.size < MINIMUM_PRODUCTS
-      redirect_to cart_path,
-        alert: "Debes seleccionar un mínimo de 4 productos."
       return
     end
 
