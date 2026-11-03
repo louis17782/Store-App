@@ -3,38 +3,24 @@
 <div class="content-sticky">
   <div class="admin-menu">
     <%= image_tag "logotech.png", alt: "Logo", class: "store-logo" %>
+    <section> 
+      <p> Cambiar moneda </p>
+      <details class="menu-dropdown">
+        <summary>
+          <%= selected_currency == "bs" ? "BS" : "USD" %> <span>⌄</span>
+        </summary>
 
-    <details class="menu-dropdown">
-      <summary>
-        AL <%= selected_sale_type.upcase %> <span>⌄</span>
-      </summary>
+        <div class="dropdown-options">
+          <button type="button" onclick="setCurrency('usd')">
+            USD
+          </button>
 
-      <div class="dropdown-options">
-        <%= link_to "AL MAYOR",
-            products_path(category_id: params[:category_id], sale_type: "Mayor"),
-            class: ("active-filter" if selected_sale_type == "Mayor") %>
-
-        <%= link_to "AL DETAL",
-            products_path(category_id: params[:category_id], sale_type: "Detal"),
-            class: ("active-filter" if selected_sale_type == "Detal") %>
-      </div>
-    </details>
-
-    <details class="menu-dropdown">
-      <summary>
-        <%= selected_currency == "bs" ? "BS" : "USD" %> <span>⌄</span>
-      </summary>
-
-      <div class="dropdown-options">
-        <button type="button" onclick="setCurrency('usd')">
-          USD
-        </button>
-
-        <button type="button" onclick="setCurrency('bs')">
-          BS
-        </button>
-      </div>
-    </details>
+          <button type="button" onclick="setCurrency('bs')">
+            BS
+          </button>
+        </div>
+      </details>
+    </section>
   </div>
 
   <div class="product-search">
