@@ -1,7 +1,7 @@
 <% selected_sale_type = params[:sale_type].presence || "Detal" %>
 <% selected_currency = session[:currency] || "usd" %>
 <div class="content-sticky">
-  <div class="admin-menu">
+  <div class="admin-menu-header">
     <%= image_tag "logotech.png", alt: "Logo", class: "store-logo" %>
     <section> 
       <p> Cambiar moneda </p>
@@ -55,20 +55,24 @@
     </ul>
   </div>
 </div>
+
+<% setting = Setting.current %>
 <header>
   <div id="slider">
-    <% Product.with_slider_images.limit(3).each do |slider_product| %>
-      <% slider_image = slider_product.slider_images.first %>
-      <% next unless slider_image %>
+    <% [
+      ["banner_1", setting.banner_1],
+      ["banner_2", setting.banner_2],
+      ["banner_3", setting.banner_3]
+    ].each do |name, image| %>
 
-      <div class="slide">
-        <%= image_tag slider_image, alt: slider_product.name %>
-      </div>
+      <% if image.attached? %>
+        <div class="slide">
+          <%= image_tag image, alt: "Imagen destacada #{name}" %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </header>
-
-
   <a href="/"><h1>PRODUCTOS DESTACADOS</h1></a>
 
   <div class="products-grid">
@@ -155,7 +159,7 @@
 <div>
   <p>
     Desarrollado por
-    <a href="https://luissanteliz.netlify.app" target="_blank" rel="noopener">
+    <a href="https://louissanteliz.netlify.app/" target="_blank" rel="noopener">
       Louis Santeliz
     </a>
   </p>
@@ -187,6 +191,11 @@
 
   const slides = slider.children.length;
   if (slides <= 1) return;
+
+  slider.style.width = `${slides * 100}%`;
+  Array.from(slider.children).forEach((slide) => {
+    slide.style.flexBasis = `${100 / slides}%`;
+  });
 
   let currentPosition = 0;
 

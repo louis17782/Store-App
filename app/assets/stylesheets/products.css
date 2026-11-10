@@ -7,7 +7,7 @@ header {
 
 #slider {
   display: flex;
-  width: 300%; 
+  width: 100%;
   height: 100%;
   transform: translateX(0);
   transition: transform 0.5s;
@@ -24,6 +24,7 @@ header {
 
 .slide img {
   display: block;
+  width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center;
@@ -38,13 +39,119 @@ section {
   font-weight: 800;
 }
 
+.banner-images {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.banner-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 18px;
+  background: white;
+  border: 1px solid blue;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.banner-image h2 {
+  width: 100%;
+  margin-bottom: 14px;
+  color: #005fcc;
+  text-align: center;
+  font-size: 1.15rem;
+}
+
+.banner-image img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #FBF2F1;
+}
+
+.banner-image p {
+  color: #655D56;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.banner-image form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.banner-image button {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #005fcc;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.banner-image button:hover {
+  background: #005fcc;
+  color: #ffffff;
+}
+
+.banner-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  text-align: center;
+}
+
+.back-to {
+  margin-top: 30px;
+}
+
+.banner-page > h1 {
+  color: #1E1B1B;
+  text-align: center;
+  border-left: 0;
+  border-bottom: 2px solid #22175c;
+  margin: 0 0 24px;
+  padding: 14px 10px;
+  background: #ffffff;
+}
+
+.banner-page > .banner-action {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 28px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: rgb(6, 6, 123);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.banner-page > .banner-action:hover {
+  background: #101651;
+  transform: translateY(-2px);
+}
+
 @media (min-width: 600px) {
   header {
     aspect-ratio: 402 / 450;
   }
 
   .slide {
-    min-width: 100%;
     height: 350px;
     overflow: hidden;
   }
@@ -190,11 +297,59 @@ from{opacity:0; transform:translateY(20px)}
 to{opacity:1; transform:translateY(0)}
 }
 
-.admin-menu {
+.admin-menu-header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin-top: 30px;
+  gap: 12px;
+  padding: 20px 0;
+  background: #f8f9fc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.admin-menu {
+  margin: 1.5rem 0 2rem;
+}
+
+.admin-menu__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.admin-menu__actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.admin-menu__actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(17, 24, 39, 0.22);
+}
+
+.admin-menu__actions a:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .admin-menu__actions {
+    flex-direction: column;
+  }
+
+  .admin-menu__actions a {
+    width: 100%;
+  }
 }
 
 .store-logo {
