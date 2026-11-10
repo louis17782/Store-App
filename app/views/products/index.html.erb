@@ -55,20 +55,24 @@
     </ul>
   </div>
 </div>
+
+<% setting = Setting.current %>
 <header>
   <div id="slider">
-    <% Product.with_slider_images.limit(3).each do |slider_product| %>
-      <% slider_image = slider_product.slider_images.first %>
-      <% next unless slider_image %>
+    <% [
+      ["banner_1", setting.banner_1],
+      ["banner_2", setting.banner_2],
+      ["banner_3", setting.banner_3]
+    ].each do |name, image| %>
 
-      <div class="slide">
-        <%= image_tag slider_image, alt: slider_product.name %>
-      </div>
+      <% if image.attached? %>
+        <div class="slide">
+          <%= image_tag image, alt: "Imagen destacada #{name}" %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </header>
-
-
   <a href="/"><h1>PRODUCTOS DESTACADOS</h1></a>
 
   <div class="products-grid">
