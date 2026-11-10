@@ -188,6 +188,11 @@
   const slides = slider.children.length;
   if (slides <= 1) return;
 
+  slider.style.width = `${slides * 100}%`;
+  Array.from(slider.children).forEach((slide) => {
+    slide.style.flexBasis = `${100 / slides}%`;
+  });
+
   let currentPosition = 0;
 
   function slide() {
